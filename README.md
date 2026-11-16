@@ -1,16 +1,37 @@
-# React + Vite
+# AWS Profiles App — Grayson Turner
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Implementation of AWS Build a Basic Web Application, Tasks 1–5:
+https://docs.aws.amazon.com/hands-on/latest/build-web-app-s3-lambda-api-gateway-dynamodb/build-web-app-s3-lambda-api-gateway-dynamodb.html
 
-Currently, two official plugins are available:
+## What the app does
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Amplify Authenticator provides email sign-up, verification, sign-in, password reset, and sign-out.
+- A Cognito post-confirmation Lambda creates a UserProfile through the AppSync GraphQL API.
+- DynamoDB persists the profile. Owner authorization restricts each profile to its signed-in owner.
+- The React interface loads the stored email and visibly displays Grayson Turner.
 
-## React Compiler
+The Lambda uses the current Amplify runtime configuration helper, avoiding the tutorial's separate generated GraphQL mutations. Its resource belongs to the auth group to avoid circular stack dependencies.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Local development
 
-## Expanding the Oxlint configuration
+```sh
+npm ci
+npx ampx sandbox
+npm run dev
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+Configure an AWS profile for local development first. The sandbox generates amplify_outputs.json, which is intentionally ignored by Git. Do not create a placeholder configuration.
+
+## Hosting
+
+The main branch of GraysonHTurner/profilesapp is connected to the existing AWS Amplify app. amplify.yml deploys backend resources, generates configuration, and builds the frontend on each push.
+
+## Task 5 verification and screenshot
+
+1. Open the deployed app or the local development URL.
+2. Choose Create Account, enter an email you can receive messages at, and choose a password.
+3. Enter the emailed verification code, then sign in if prompted.
+4. Verify My Profile, Grayson Turner, and the stored email appear.
+5. Capture a screenshot of the browser with the name and profile visible.
+
+Keep AWS resources until the screenshot has been captured. Task 6 cleanup is intentionally not performed.
